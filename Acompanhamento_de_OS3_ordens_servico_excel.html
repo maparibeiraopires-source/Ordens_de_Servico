@@ -12943,7 +12943,7 @@ const ruas = [
       {
     "TIPO": "RUA",
     "COMPLEMENTO DO NOME": "CENTRO COMERCIAL",
-    "NOME": "INOCÊNCIO PEIXOTO",
+    "NOME": " INOCÊNCIO PEIXOTO",
     "BAIRRO": "OURO FINO PAULISTA",
     "TERRA": null,
     "BLOQUETE": null,
@@ -15304,26 +15304,50 @@ document.addEventListener("click", event => {
 });
 
 // STORAGE
-let registros = JSON.parse(localStorage.getItem("registros")) || [];
+let registros = [];
+try {
+    const salvo = localStorage.getItem("registros");
+    registros = salvo ? JSON.parse(salvo) : [];
+    if (!Array.isArray(registros)) registros = [];
+} catch (erro) {
+    console.warn("Registros salvos inválidos. Iniciando vazio.", erro);
+    registros = [];
+    localStorage.removeItem("registros");
+}
+
+// REFERÊNCIAS DOS CAMPOS
+const campoOS = document.getElementById("os");
+const campoOficio = document.getElementById("oficio");
+const campoData = document.getElementById("data");
+const campoSolicitante = document.getElementById("solicitante");
+const campoContato = document.getElementById("contato");
+const campoNumero = document.getElementById("numero");
+const campoOrigem = document.getElementById("origem");
+const campoTipo = document.getElementById("tipo");
+const campoResponsavel = document.getElementById("responsavel");
+const campoEquipamento = document.getElementById("equipamento");
+const campoInicio = document.getElementById("inicio");
+const campoFim = document.getElementById("fim");
+const campoDescricao = document.getElementById("descricao");
 
 // SALVAR
 function salvar(){
     const dado = {
-        os: os.value,
-        oficio: oficio.value,
-        data: data.value,
-        solicitante: solicitante.value,
-        contato: contato.value,
+        os: campoOS.value,
+        oficio: campoOficio.value,
+        data: campoData.value,
+        solicitante: campoSolicitante.value,
+        contato: campoContato.value,
         rua: rua.value,
-        numero: numero.value,
+        numero: campoNumero.value,
         bairro: bairro.value,
-        origem: origem.value,
-        tipo: tipo.value,
-        responsavel: responsavel.value,
-        equipamento: equipamento.value,
-        inicio: inicio.value,
-        fim: fim.value,
-        descricao: descricao.value
+        origem: campoOrigem.value,
+        tipo: campoTipo.value,
+        responsavel: campoResponsavel.value,
+        equipamento: campoEquipamento.value,
+        inicio: campoInicio.value,
+        fim: campoFim.value,
+        descricao: campoDescricao.value
     };
 
     registros.push(dado);
